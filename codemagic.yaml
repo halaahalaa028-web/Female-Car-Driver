@@ -25,23 +25,7 @@ workflows:
       - name: Apply iOS signing profiles
         script: xcode-project use-profiles
       - name: Build signed IPA
-        script: |
-          if xcode-project build-ipa \
-            --workspace "$CM_BUILD_DIR/ios/Runner.xcworkspace" \
-            --scheme "Runner" \
-            --archive-flags="-destination 'generic/platform=iOS'"; then
-            echo "IPA archive completed successfully."
-          else
-            BUILD_STATUS=$?
-            echo "===== XCODE BUILD LOGS (LAST 250 LINES) ====="
-            for LOG in /tmp/xcodebuild_logs/*.log; do
-              if [ -f "$LOG" ]; then
-                echo "===== $LOG ====="
-                tail -n 250 "$LOG"
-              fi
-            done
-            exit "$BUILD_STATUS"
-          fi
+        script: flutter build ipa --release
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
