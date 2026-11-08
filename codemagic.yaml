@@ -17,9 +17,11 @@ workflows:
     scripts:
       - name: Get Flutter packages
         script: flutter pub get
-      - name: Install CocoaPods dependencies
+      - name: Clean and reinstall CocoaPods dependencies
         script: |
-          find . -name "Podfile" -execdir pod install \;
+          cd ios
+          rm -rf Pods .symlinks Flutter/Flutter.podspec Podfile.lock
+          pod install --repo-update
       - name: Apply iOS signing profiles
         script: xcode-project use-profiles
       - name: Build signed IPA
