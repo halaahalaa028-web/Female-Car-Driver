@@ -8,7 +8,7 @@ workflows:
     environment:
       ios_signing:
         provisioning_profiles:
-          - Female Car Driver Distribution
+          - Female Car
         certificates:
           - ElShroq Apple Distribution 2026
       flutter: stable
