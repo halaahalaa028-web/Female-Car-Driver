@@ -9,6 +9,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:ride_sharing_user_app/firebase_options.dart';
 import 'package:ride_sharing_user_app/helper/notification_helper.dart';
+import 'package:ride_sharing_user_app/helper/startup_guard.dart';
 import 'package:ride_sharing_user_app/util/dimensions.dart';
 import 'package:ride_sharing_user_app/util/images.dart';
 import 'package:ride_sharing_user_app/features/map/screens/map_screen.dart';
@@ -35,18 +36,38 @@ Future<void> main() async {
         statusBarColor: Colors.transparent),
   );
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Nothing before runApp may throw or hang: a failure here used to leave iOS
+  // users on a black screen (see helper/startup_guard.dart).
+  final bool firebaseReady = await initFirebaseSafely(
+    hasApps: () => Firebase.apps.isNotEmpty,
+    initialize: () => Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+    fallbackApp: () => Firebase.app(),
+  );
   Map<String, Map<String, String>> languages = await di.init();
 
-  final RemoteMessage? remoteMessage =
-      await FirebaseMessaging.instance.getInitialMessage();
+  RemoteMessage? remoteMessage;
+  if (firebaseReady) {
+    remoteMessage = await guardedStep<RemoteMessage?>(
+      () => FirebaseMessaging.instance.getInitialMessage(),
+      timeout: const Duration(seconds: 3),
+      label: 'getInitialMessage',
+    );
+  }
 
-  await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
+  await guardedStep(
+    () => NotificationHelper.initialize(flutterLocalNotificationsPlugin),
+    label: 'notification init',
+  );
 
-  FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
+  if (firebaseReady) {
+    FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
+  }
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
+  await guardedStep(
+    () => FlutterDownloader.initialize(debug: true, ignoreSsl: true),
+    label: 'downloader init',
+  );
 
   runApp(MyApp(languages: languages, notificationData: remoteMessage?.data));
 }

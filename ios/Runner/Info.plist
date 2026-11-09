@@ -38,15 +38,15 @@
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSCameraUsageDescription</key>
-    <string>This app need camera access for taking photo for user profile picture.</string>
+    <string>Female Captain needs camera access so you can take a photo for your profile picture and documents.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>This app needs access to location to manage delivery address when add a new address.</string>
+    <string>Female Captain uses your location to show you nearby ride requests, calculate the distance to the customer, and navigate during trips.</string>
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>This app needs access to location to manage delivery address when add a new address.</string>
+    <string>Female Captain uses your location to show you nearby ride requests, calculate the distance to the customer, and navigate during trips.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>This app needs access to location to manage delivery address when add a new address.</string>
+    <string>Female Captain uses your location to show you nearby ride requests, calculate the distance to the customer, and navigate during trips.</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>This app need photo gallery access for taking photo for user profile picture.</string>
+    <string>Female Captain needs photo library access so you can choose a photo for your profile picture and documents.</string>
     <key>GMSApiKey</key>
     <string>$(GMS_API_KEY)</string>
     <key>UIApplicationSupportsIndirectInputEvents</key>
