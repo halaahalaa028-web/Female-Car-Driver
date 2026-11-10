@@ -254,7 +254,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -x \"$PODS_ROOT/FirebaseCrashlytics/upload-symbols\" ]; then\\n  \"$PODS_ROOT/FirebaseCrashlytics/upload-symbols\" --flutter-project \"$PROJECT_DIR/firebase_app_id_file.json\"\\nelse\\n  echo \"warning: Firebase Crashlytics upload-symbols not found; skipping dSYM upload for this build.\"\\nfi\\n";
+			shellScript = "if [ -x \"$PODS_ROOT/FirebaseCrashlytics/upload-symbols\" ]; then\n  \"$PODS_ROOT/FirebaseCrashlytics/upload-symbols\" --flutter-project \"$PROJECT_DIR/firebase_app_id_file.json\"\nelse\n  echo \"warning: Firebase Crashlytics upload-symbols not found; skipping dSYM upload for this build.\"\nfi\n";
 		};
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
 			isa = PBXShellScriptBuildPhase;
