@@ -20,7 +20,7 @@ workflows:
       - name: Install CocoaPods dependencies
         script: |
           cd ios
-          pod install --repo-update
+          pod install --repo-update --clean-install
           cd ..
       - name: Apply App Store signing profiles
         script: xcode-project use-profiles
